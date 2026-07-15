@@ -12,6 +12,9 @@
 // It works as expected and uses two nested for-loops which results in O(n^2), quadratic time complexity.
 void selectionSort(int arr[], int arr_size)
 {
+  // nothing to sort
+  if (arr_size <= 1)
+    return;
 
   for (int sorted = 0; sorted < arr_size; sorted++)
   {
