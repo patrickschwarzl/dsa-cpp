@@ -27,6 +27,10 @@ void fillArrayWith(int arr[], int arr_size, int fill)
 // (strictly ignoring VLA not being supported by C++)
 void countingSort(int arr[], int arr_size)
 {
+  // nothing to sort
+  if (arr_size <= 1)
+    return;
+
   // find the largest integer in the given array
   int target = 0;
 
