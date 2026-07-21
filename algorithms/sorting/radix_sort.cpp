@@ -3,15 +3,16 @@
 // values allowed. Reused some helper functions and modified my counting sort algorithm.
 //
 // RUNTIME
-//    best-case: O() -> 
-//    average-case: O() -> 
-//    worst-case: O() -> 
+// n being the number of elements, k representing the range of digits (largest_digit + 1) and d being
+// the maximum number of digits.
+//    best-case: O(d * (n + k)) -> we perform d iterations of counting sort with there being no early exits.
+//    average-case: O(d * (n + k)) -> same as stated above.
+//    worst-case: O(d * (n + k)) -> worst-case being the same as best-case.
 
 #include <iostream>
-#include <string>
 
-// small helper function to bypass the need of <cmath>, while also returning
-// an integer instead of a double (when using std::pow())
+// small helper function to bypass the need for <cmath>, while also returning
+// an integer instead of a double
 int toPowerOf(int number, int power_of)
 {
   if (power_of == 0)
@@ -125,17 +126,23 @@ void radixSort(int arr[], int arr_size)
     }
   }
 
-  std::string target_str = std::to_string(target);
+  // find out how many digits our largest integer has
+  int max_digits = 0;
 
-  // represents the amount of digits our largest integer has
-  int max_digits = target_str.length();
+  while (target > 0)
+  {
+    target /= 10;
+    max_digits++;
+  }
+
+  if (max_digits == 0)
+    max_digits = 1;
 
   // run counting sort on each individual digit | starting from the least significant digit
   for (int digit = 0; digit < max_digits; digit++)
   {
     // get access to the individual digits 
-    int divider = 1;
-    divider = toPowerOf(10, digit);
+    int divider = toPowerOf(10, digit);
 
     countingSort(arr, arr_size, divider);
   }
