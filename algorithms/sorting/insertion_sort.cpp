@@ -52,13 +52,13 @@
 // reworked version of my previous insertion sort attempt, now shifting elements and inserting x in the gap.
 // I removed the outer while-loop and used an inner while-loop to handle the shifting logic. Took some time but
 // eventually got it to work.
-void insertionSort(int arr[], int arr_size)
+void insertionSort(int arr[], std::size_t arr_size)
 {
   // nothing to sort
   if (arr_size <= 1)
     return;
 
-  for (int unsorted = 1; unsorted < arr_size; ++unsorted)
+  for (int unsorted = 1; unsorted < static_cast<int>(arr_size); ++unsorted)
   {
     int x = arr[unsorted]; // storing target element to safely shift array
     int sorted = unsorted - 1;
@@ -75,7 +75,7 @@ void insertionSort(int arr[], int arr_size)
   }
 }
 
-void printArray(const int arr[], int arr_size)
+void printArray(const int arr[], std::size_t arr_size)
 {
   for (std::size_t i = 0; i < arr_size; ++i)
   {
@@ -88,7 +88,7 @@ void printArray(const int arr[], int arr_size)
 int main()
 {
   int arr[] = {5, 2, 4, 9, -2, 13, 1, 3, 100, 232, 67, 50, 0, 3, -40, -10, 20};
-  int arr_size = sizeof(arr) / sizeof(arr[0]);
+  std::size_t arr_size = sizeof(arr) / sizeof(arr[0]);
 
   std::cout << "unsorted: ";
   printArray(arr, arr_size);
