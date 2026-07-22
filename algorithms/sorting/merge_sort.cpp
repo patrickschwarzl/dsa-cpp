@@ -14,17 +14,17 @@
 #include <iostream>
 
 // helper function that creates two temporary arrays and correctly merges those
-void merge(int arr[], int lower_bound, int middle_index, int upper_bound)
+void merge(int arr[], std::size_t lower_bound, std::size_t middle_index, std::size_t upper_bound)
 {
   // use information given to create two temporary arrays
-  int left_size = middle_index - lower_bound + 1;
-  int right_size = upper_bound - middle_index;
+  std::size_t left_size = middle_index - lower_bound + 1;
+  std::size_t right_size = upper_bound - middle_index;
 
   int arr_left[left_size];
   int arr_right[right_size];
   
   // copy elements on the left side into arr_left
-  for (int i = lower_bound; i <= middle_index; i++)
+  for (std::size_t i = lower_bound; i <= middle_index; i++)
   {
     // we shift to the left which allows us to start at index 0
     int shift_left = i - lower_bound;
@@ -32,15 +32,15 @@ void merge(int arr[], int lower_bound, int middle_index, int upper_bound)
   }
 
   // copy elements on the right side into arr_right
-  for (int i = middle_index + 1; i <= upper_bound; i++)
+  for (std::size_t i = middle_index + 1; i <= upper_bound; i++)
   {
     int shift_left = i - (middle_index + 1);
     arr_right[shift_left] = arr[i];
   }
 
-  int left_index = 0;
-  int right_index = 0;
-  int source_index = lower_bound; // lower_bound will always represent the first element in the source array
+  std::size_t left_index = 0;
+  std::size_t right_index = 0;
+  std::size_t source_index = lower_bound; // lower_bound will always represent the first element in the source array
                                   // that we want to be initialized next
 
   // decided on one while-loop instead of multiple for-loops
@@ -94,7 +94,7 @@ void merge(int arr[], int lower_bound, int middle_index, int upper_bound)
   }
 }
 
-void mergeSort(int arr[], int lower_bound, int upper_bound)
+void mergeSort(int arr[], std::size_t lower_bound, std::size_t upper_bound)
 {
   // safe guard: invalid bounds
   if (lower_bound > upper_bound)
@@ -105,7 +105,7 @@ void mergeSort(int arr[], int lower_bound, int upper_bound)
     return;
 
   // calculate the middle element's index
-  int middle_index = (upper_bound - lower_bound) / 2 + lower_bound;
+  std::size_t middle_index = (upper_bound - lower_bound) / 2 + lower_bound;
 
   // call mergeSort on left subarray (including middle element)
   mergeSort(arr, lower_bound, middle_index);
@@ -117,7 +117,7 @@ void mergeSort(int arr[], int lower_bound, int upper_bound)
   merge(arr, lower_bound, middle_index, upper_bound);
 }
 
-void printArray(const int arr[], int arr_size)
+void printArray(const int arr[], std::size_t arr_size)
 {
   for (std::size_t i = 0; i < arr_size; ++i)
   {
@@ -130,7 +130,7 @@ void printArray(const int arr[], int arr_size)
 int main()
 {
   int arr[] = {5, 2, 4, 9, -2, 13, 1, 3, 100, 232, 67, 50, 0, 3, -40, -10, 20};
-  int arr_size = sizeof(arr) / sizeof(arr[0]);
+  std::size_t arr_size = sizeof(arr) / sizeof(arr[0]);
 
   std::cout << "unsorted: ";
   printArray(arr, arr_size);
