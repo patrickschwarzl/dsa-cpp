@@ -8,7 +8,6 @@
 //
 
 #include <iostream>
-#include <vector>
 
 // This version of binary search has a runtime of O(n), with n being the number of elements inside the vector.
 // Reason for that is the way we slice the vector by copying half of the elements into a new vector.
@@ -64,24 +63,24 @@
   return binarySearch(vec_sliced, target);
 } */
 
-int binarySearch(const std::vector<int> &vec, int lower_bound, int upper_bound, int target)
+int binarySearch(const int arr[], int lower_bound, int upper_bound, int target)
 {
   if (upper_bound >= lower_bound)
   {
     int middle = lower_bound + (upper_bound - lower_bound) / 2;
 
-    if (vec.at(middle) == target)
+    if (arr[middle] == target)
       return middle;
 
-    if (vec.at(middle) > target)
+    if (arr[middle] > target)
     {
       // look at left side
-      return binarySearch(vec, lower_bound, middle - 1, target);
+      return binarySearch(arr, lower_bound, middle - 1, target);
     }
     else
     {
       // look at right side
-      return binarySearch(vec, middle + 1, upper_bound, target);
+      return binarySearch(arr, middle + 1, upper_bound, target);
     }
   }
 
@@ -90,11 +89,10 @@ int binarySearch(const std::vector<int> &vec, int lower_bound, int upper_bound, 
 
 int main()
 {
-  const std::vector<int> vec = {1, 3, 4, 5, 7, 9, 11}; // sorted
+  const int arr[] = {1, 3, 4, 5, 7, 9, 11}; // sorted
+  int arr_size = sizeof(arr) / sizeof(arr[0]);
 
-  // int result = binarySearch(vec, 9);
-
-  int result = binarySearch(vec, 0, vec.size() - 1, 9);
+  int result = binarySearch(arr, 0, arr_size - 1, 9);
 
   std::cout << result << std::endl;
 
