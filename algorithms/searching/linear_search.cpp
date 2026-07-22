@@ -8,7 +8,7 @@
 //
 
 #include <iostream>
-#include <vector>
+// #include <vector>
 
 /* int linearSearch(const std::vector<int> &vec, int target)
 {
@@ -23,10 +23,14 @@
 
 int linearSearch(const int arr[], std::size_t arr_size, int target)
 {
+  // empty array
+  if (arr_size == 0)
+    return -1;
+
   for (std::size_t i = 0; i < arr_size; i++)
   {
     if (arr[i] == target)
-      return i;
+      return static_cast<int>(i);
   }
 
   return -1;
