@@ -29,9 +29,9 @@ int toPowerOf(int number, int power_of)
 }
 
 // helper function to fill array with given integer
-void fillArrayWith(int arr[], int arr_size, int fill)
+void fillArrayWith(int arr[], std::size_t arr_size, int fill)
 {
-  for (int i = 0; i < arr_size; i++)
+  for (std::size_t i = 0; i < arr_size; i++)
   {
     arr[i] = fill;
   }
@@ -40,13 +40,13 @@ void fillArrayWith(int arr[], int arr_size, int fill)
 // this version of counting sort is very similar to the one I already wrote in counting_sort.cpp,
 // yet is slightly modified to match the new requirements. It does not determine the smallest value
 // and uses a range from 0 up to the largest digit instead.
-void countingSort(int arr[], int arr_size, int divider)
+void countingSort(int arr[], std::size_t arr_size, int divider)
 {
   // find largest digit in array
-  int largest_digit = 0;
-  int num = 0;
+  std::size_t largest_digit = 0;
+  std::size_t num = 0;
 
-  for (int i = 0; i < arr_size; i++)
+  for (std::size_t i = 0; i < arr_size; i++)
   {
     num = (arr[i] / divider) % 10;
 
@@ -57,27 +57,27 @@ void countingSort(int arr[], int arr_size, int divider)
   }
 
   // create temporary array, initialized with 0s
-  int temp_size = largest_digit + 1;
+  std::size_t temp_size = largest_digit + 1;
   int arr_temp[temp_size];
 
   // fill array with 0s
   fillArrayWith(arr_temp, temp_size, 0);
 
   // count number of occurrences
-  for (int i = 0; i < arr_size; i++)
+  for (std::size_t i = 0; i < arr_size; i++)
   {
     num = (arr[i] / divider) % 10;
     arr_temp[num]++;
   }
 
   // compute prefix sums
-  for (int i = 1; i < temp_size; i++)
+  for (std::size_t i = 1; i < temp_size; i++)
   {
     arr_temp[i] += arr_temp[i - 1];
   }
 
   // shift array one index to the right, emitting value on last index
-  for (int i = largest_digit; i >= 1; i--)
+  for (int i = static_cast<int>(largest_digit); i >= 1; i--)
   {
     arr_temp[i] = arr_temp[i - 1];
   }
@@ -88,18 +88,18 @@ void countingSort(int arr[], int arr_size, int divider)
   // we create a copy of our source array
   int arr_copy[arr_size];
 
-  for (int i = 0; i < arr_size; i++)
+  for (std::size_t i = 0; i < arr_size; i++)
   {
     arr_copy[i] = arr[i];
   }
 
   // populate the source array with sorted values using our array copy 
   // as well as information about each starting index 
-  for (int i = 0; i < arr_size; i++)
+  for (std::size_t i = 0; i < arr_size; i++)
   {
     // get starting index
     num = (arr_copy[i] / divider) % 10;
-    int index = arr_temp[num];
+    std::size_t index = arr_temp[num];
 
     // add value in correct position
     arr[index] = arr_copy[i];
@@ -109,7 +109,7 @@ void countingSort(int arr[], int arr_size, int divider)
   }
 }
 
-void radixSort(int arr[], int arr_size)
+void radixSort(int arr[], std::size_t arr_size)
 {
   // nothing to sort
   if (arr_size <= 1)
@@ -118,7 +118,7 @@ void radixSort(int arr[], int arr_size)
   // find largest number to determine its number of digits
   int target = 0;
 
-  for (int i = 0; i < arr_size; i++)
+  for (std::size_t i = 0; i < arr_size; i++)
   {
     if (arr[i] > target)
     {
@@ -127,7 +127,7 @@ void radixSort(int arr[], int arr_size)
   }
 
   // find out how many digits our largest integer has
-  int max_digits = 0;
+  std::size_t max_digits = 0;
 
   while (target > 0)
   {
@@ -139,7 +139,7 @@ void radixSort(int arr[], int arr_size)
     max_digits = 1;
 
   // run counting sort on each individual digit | starting from the least significant digit
-  for (int digit = 0; digit < max_digits; digit++)
+  for (std::size_t digit = 0; digit < max_digits; digit++)
   {
     // get access to the individual digits 
     int divider = toPowerOf(10, digit);
@@ -148,7 +148,7 @@ void radixSort(int arr[], int arr_size)
   }
 }
 
-void printArray(const int arr[], int arr_size)
+void printArray(const int arr[], std::size_t arr_size)
 {
   for (std::size_t i = 0; i < arr_size; ++i)
   {
@@ -161,7 +161,7 @@ void printArray(const int arr[], int arr_size)
 int main()
 {
   int arr[] = {343, 567, 819, 199, 201, 506, 784, 111, 12, 99, 3};
-  int arr_size = sizeof(arr) / sizeof(arr[0]);
+  std::size_t arr_size = sizeof(arr) / sizeof(arr[0]);
 
   std::cout << "unsorted: ";
   printArray(arr, arr_size);
