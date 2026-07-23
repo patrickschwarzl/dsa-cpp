@@ -1,6 +1,17 @@
 // STATIC STACK
 // stack data-structure with fixed compile-time capacity. Fully stack allocated 
 // with no dynamic heap allocations. Features basic stack operations.
+//
+// TIME COMPLEXITY
+//  top()             -> O(1)
+//  push()            -> O(1)
+//  pop()             -> O(1)
+//  empty()           -> O(1)
+//  clear()           -> O(1)
+//  capacity()        -> O(1)
+//  reachedCapacity() -> O(1)
+//  size()            -> O(1)
+//
 
 #include <iostream>
 
