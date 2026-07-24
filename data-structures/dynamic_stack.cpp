@@ -64,7 +64,11 @@ template <typename T> class Stack
       arr_[*index_] = element;
     }
 
-    T &top() const { return arr_[*index_]; }
+    const T &top() const { return arr_[index_.value()]; }
+
+    T &top() { return arr_[index_.value()]; }
+
+    
 };
 
 int main()
