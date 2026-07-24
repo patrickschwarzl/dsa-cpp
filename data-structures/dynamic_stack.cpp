@@ -47,6 +47,10 @@ template <typename T> class Stack
     Stack &operator=(Stack &&) = delete;
 
     // basic operations
+
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Pushes element on top of stack.
+    /// @param element
     void push(const T &element)
     {
       if (!index_.has_value())
@@ -64,11 +68,34 @@ template <typename T> class Stack
       arr_[*index_] = element;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Pops last element from stack.
+    void pop()
+    {
+      if (index_.has_value())
+      {
+        if (*index_ == 0)
+          index_ = std::nullopt;
+        else
+          --(*index_);
+
+        return;
+      }
+
+      std::cout << "ERROR: Stack underflow, cannot pop from empty stack!\n";
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Returns a read-only reference version of the top element.
+    /// @warning User is responsible for avoiding undefined behavior.
+    /// @return const T&
     const T &top() const { return arr_[index_.value()]; }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Returns a non-const reference version of the top element.
+    /// @warning User is responsible for avoiding undefined behavior.
+    /// @return T&
     T &top() { return arr_[index_.value()]; }
-
-    
 };
 
 int main()
@@ -76,6 +103,11 @@ int main()
   Stack<int> s;
 
   s.push(5);
+  s.push(3);
+
+  std::cout << s.top() << "\n";
+
+  s.pop();
 
   std::cout << s.top() << "\n";
 
