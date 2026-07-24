@@ -7,14 +7,15 @@
 //    worst-case: O(n log n) -> total work still sums up to n log n.
 //
 
-// Took me quite a lot of time to design the recursive approach and also debug everything, especially the bounds 
+// Took me quite a lot of time to design the recursive approach and also debug everything, especially the bounds
 // inside merge() caused a lot of trouble.
 // Overall very interesting algorithm, although my version makes it seem unnecessarily complex, it really isn't.
 
 #include <iostream>
 
 // helper function that creates two temporary arrays and correctly merges those
-void merge(int arr[], std::size_t lower_bound, std::size_t middle_index, std::size_t upper_bound)
+void merge(int arr[], std::size_t lower_bound, std::size_t middle_index,
+           std::size_t upper_bound)
 {
   // use information given to create two temporary arrays
   std::size_t left_size = middle_index - lower_bound + 1;
@@ -22,7 +23,7 @@ void merge(int arr[], std::size_t lower_bound, std::size_t middle_index, std::si
 
   int arr_left[left_size];
   int arr_right[right_size];
-  
+
   // copy elements on the left side into arr_left
   for (std::size_t i = lower_bound; i <= middle_index; i++)
   {
@@ -40,8 +41,9 @@ void merge(int arr[], std::size_t lower_bound, std::size_t middle_index, std::si
 
   std::size_t left_index = 0;
   std::size_t right_index = 0;
-  std::size_t source_index = lower_bound; // lower_bound will always represent the first element in the source array
-                                  // that we want to be initialized next
+  std::size_t source_index =
+      lower_bound; // lower_bound will always represent the first element in the source array
+  // that we want to be initialized next
 
   // decided on one while-loop instead of multiple for-loops
   while (left_index < left_size && right_index < right_size)
@@ -52,7 +54,7 @@ void merge(int arr[], std::size_t lower_bound, std::size_t middle_index, std::si
       arr[source_index] = arr_left[left_index];
       ++left_index;
     }
-    else 
+    else
     {
       // otherwise the right element must be the smallest, so we add it
       arr[source_index] = arr_right[right_index];

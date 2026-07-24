@@ -1,6 +1,6 @@
 // INSERTION SORT
 // default implementation of insertion sort.
-// 
+//
 // RUNTIME
 //    best-case: O(n) -> array was already sorted.
 //    average-case: O(n^2) -> array has random order of elements.

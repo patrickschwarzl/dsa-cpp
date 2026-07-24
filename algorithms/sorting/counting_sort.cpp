@@ -7,8 +7,8 @@
 //    average-case: O(n + k) -> same as stated above.
 //    worst-case: O(n + k) -> worst-case being the same as best-case, yet acceptable on specific data sets.
 //
-// Efficient on arrays whose range of input values is relatively small compared to 
-// the number of elements in the array. 
+// Efficient on arrays whose range of input values is relatively small compared to
+// the number of elements in the array.
 // Therefore often used in radix sort.
 
 #include <iostream>
@@ -82,8 +82,8 @@ void countingSort(int arr[], std::size_t arr_size)
     arr_copy[i] = arr[i];
   }
 
-  // populate the source array with sorted values using our array copy 
-  // as well as information about each starting index 
+  // populate the source array with sorted values using our array copy
+  // as well as information about each starting index
   for (std::size_t i = 0; i < arr_size; i++)
   {
     // get starting index

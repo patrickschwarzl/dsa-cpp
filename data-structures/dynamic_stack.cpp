@@ -200,7 +200,7 @@ int main()
   std::cout << s.top() << "\n";
 
   s.clear();
-  
+
   std::cout << "size: " << s.size() << "\n";
   std::cout << "capacity: " << s.capacity() << "\n";
 

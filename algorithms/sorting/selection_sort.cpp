@@ -23,7 +23,8 @@ void selectionSort(int arr[], std::size_t arr_size)
     int temp = 0;
 
     // go from the end of the array up to the sorted portion of the array
-    for (int unsorted = static_cast<int>(arr_size) - 1; unsorted > sorted; unsorted--)
+    for (int unsorted = static_cast<int>(arr_size) - 1; unsorted > sorted;
+         unsorted--)
     {
       if (arr[unsorted] < arr[target_index])
       {

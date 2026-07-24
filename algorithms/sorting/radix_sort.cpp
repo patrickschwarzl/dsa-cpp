@@ -93,8 +93,8 @@ void countingSort(int arr[], std::size_t arr_size, int divider)
     arr_copy[i] = arr[i];
   }
 
-  // populate the source array with sorted values using our array copy 
-  // as well as information about each starting index 
+  // populate the source array with sorted values using our array copy
+  // as well as information about each starting index
   for (std::size_t i = 0; i < arr_size; i++)
   {
     // get starting index
@@ -141,7 +141,7 @@ void radixSort(int arr[], std::size_t arr_size)
   // run counting sort on each individual digit | starting from the least significant digit
   for (std::size_t digit = 0; digit < max_digits; digit++)
   {
-    // get access to the individual digits 
+    // get access to the individual digits
     int divider = toPowerOf(10, digit);
 
     countingSort(arr, arr_size, divider);

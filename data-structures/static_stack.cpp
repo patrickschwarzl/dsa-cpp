@@ -1,5 +1,5 @@
 // STATIC STACK
-// stack data-structure with fixed compile-time capacity. Fully stack allocated 
+// stack data-structure with fixed compile-time capacity. Fully stack allocated
 // with no dynamic heap allocations. Features basic stack operations.
 //
 // TIME COMPLEXITY
@@ -18,8 +18,7 @@
 // max fallback capacity
 const constexpr std::size_t MAX_CAPACITY = 100;
 
-template <typename T, std::size_t Capacity = MAX_CAPACITY>
-class Stack
+template <typename T, std::size_t Capacity = MAX_CAPACITY> class Stack
 {
   private:
     // members
@@ -36,22 +35,22 @@ class Stack
     /**
      * @brief Copy constructor.
      */
-    Stack(const Stack&) = default;
+    Stack(const Stack &) = default;
 
     /**
      * @brief Move constructor.
      */
-    Stack(Stack&&) = default;
+    Stack(Stack &&) = default;
 
     /**
      * @brief Copy assignment operator.
      */
-    Stack& operator=(const Stack&) = default;
-    
+    Stack &operator=(const Stack &) = default;
+
     /**
      * @brief Move assignment operator.
      */
-    Stack& operator=(Stack&&) = default;
+    Stack &operator=(Stack &&) = default;
 
     /// ---------------------------------------------------------------------------------------------------------------
     // basic operations
@@ -61,20 +60,14 @@ class Stack
      * @warning User is responsible for avoiding undefined behavior.
      * @return const T& 
      */
-    const T &top() const
-    {
-      return arr_[size_ - 1];
-    }
+    const T &top() const { return arr_[size_ - 1]; }
 
     /**
      * @brief Returns a non-const reference version of the top element.
      * @warning User is responsible for avoiding undefined behavior.
      * @return T& 
      */
-    T &top()
-    {
-      return arr_[size_ - 1];
-    }
+    T &top() { return arr_[size_ - 1]; }
 
     /**
      * @brief Pushes element on top of stack.
@@ -84,7 +77,8 @@ class Stack
     {
       if (reachedCapacity())
       {
-        std::cout << "ERROR: Maximum capacity reached. Element couldn't be added!\n";
+        std::cout
+            << "ERROR: Maximum capacity reached. Element couldn't be added!\n";
         return;
       }
 
@@ -110,45 +104,30 @@ class Stack
      * @brief Returns true if the stack is empty, false otherwise.
      * @return Boolean value
      */
-    bool empty() const
-    {
-      return size_ == 0;
-    }
+    bool empty() const { return size_ == 0; }
 
     /**
      * @brief Resets the stack.
      */
-    void clear()
-    {
-      size_ = 0;
-    }
+    void clear() { size_ = 0; }
 
     /**
      * @brief Returns the stacks capacity.
      * @return std::size_t 
      */
-    std::size_t capacity() const
-    {
-      return Capacity;
-    }
+    std::size_t capacity() const { return Capacity; }
 
     /**
      * @brief Returns true if capacity limit has been reached, false otherwise.
      * @return True if capacity was reached, false otherwise.
      */
-    bool reachedCapacity() const
-    {
-      return size_ == Capacity;
-    }
+    bool reachedCapacity() const { return size_ == Capacity; }
 
     /**
      * @brief Returns the current size of the stack.
      * @return std::size_t 
      */
-    std::size_t size() const
-    {
-      return size_;
-    }
+    std::size_t size() const { return size_; }
 };
 
 int main()
