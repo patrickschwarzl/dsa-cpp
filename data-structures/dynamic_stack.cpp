@@ -22,8 +22,8 @@ template <typename T> class Stack
   public:
     // Constructor
     Stack()
-        : capacity_(10), arr_(std::make_unique<T[]>(CAPACITY)),
-          capacity_(CAPACITY), index_(std::nullopt)
+        : arr_(std::make_unique<T[]>(CAPACITY)), capacity_(CAPACITY),
+          index_(std::nullopt)
     {
     }
 
@@ -52,22 +52,28 @@ template <typename T> class Stack
       if (!index_.has_value())
         index_ = 0;
       else
-        index_++;
+        (*index_)++;
 
       // check if additional memory needs to be allocated
-      if (index_ >= capacity_)
+      if (*index_ >= capacity_)
       {
         capacity_ += CAPACITY_INTERVAL;
         arr_ = std::make_unique<T[]>(capacity_);
       }
 
-      arr_[index_] = element;
+      arr_[*index_] = element;
     }
+
+    T &top() const { return arr_[*index_]; }
 };
 
 int main()
 {
   Stack<int> s;
+
+  s.push(5);
+
+  std::cout << s.top() << "\n";
 
   return 0;
 }
