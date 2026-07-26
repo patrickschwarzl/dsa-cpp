@@ -28,7 +28,7 @@ class Queue
         return;
       }
 
-      arr[size_] = element;
+      arr_[size_] = element;
       ++size_;
     }
 
@@ -39,13 +39,18 @@ class Queue
 
     T &front() const
     {
-      return arr[0];
+      return arr_[0];
     }
 
     T &back() const
    {
-    return arr[size_ - 1];
+    return arr_[size_ - 1];
    } 
+
+   bool empty() const
+   {
+    return size_ == 0;
+   }
 
 };
 
