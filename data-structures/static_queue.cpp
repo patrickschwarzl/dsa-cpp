@@ -7,8 +7,7 @@
 
 #include <iostream>
 
-template<typename T, std::size_t Capacity>
-class Queue
+template <typename T, std::size_t Capacity> class Queue
 {
   private:
     T arr_[Capacity];
@@ -17,14 +16,14 @@ class Queue
   public:
     Queue() : size_(0) {}
 
-
     // basic operations
 
-    void enqueue(const T& element)
+    void enqueue(const T &element)
     {
       if (capacityReached())
       {
-        std::cout << "ERROR: Current queues capacity has been reached, cannot enqueue further elements.\n";
+        std::cout << "ERROR: Current queues capacity has been reached, cannot "
+                     "enqueue further elements.\n";
         return;
       }
 
@@ -32,37 +31,17 @@ class Queue
       ++size_;
     }
 
-    bool capacityReached() const
-    {
-      return size_ == Capacity;
-    }
+    bool capacityReached() const { return size_ == Capacity; }
 
-    T &front() const
-    {
-      return arr_[0];
-    }
+    T &front() const { return arr_[0]; }
 
-    T &back() const
-   {
-    return arr_[size_ - 1];
-   } 
+    T &back() const { return arr_[size_ - 1]; }
 
-   bool empty() const
-   {
-    return size_ == 0;
-   }
+    bool empty() const { return size_ == 0; }
 
-   std::size_t size() const
-   {
-    return size_;
-   }
+    std::size_t size() const { return size_; }
 
+    std::size_t capacity() const { return Capacity; }
 };
 
-int main()
-{
-
-
-
-  return 0;
-}
+int main() { return 0; }
