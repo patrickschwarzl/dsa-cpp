@@ -42,6 +42,10 @@ class Queue
       return arr[0];
     }
 
+    T &back() const
+   {
+    return arr[size_ - 1];
+   } 
 
 };
 
