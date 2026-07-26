@@ -52,6 +52,11 @@ class Queue
     return size_ == 0;
    }
 
+   std::size_t size() const
+   {
+    return size_;
+   }
+
 };
 
 int main()
