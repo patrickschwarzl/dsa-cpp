@@ -42,6 +42,8 @@ template <typename T, std::size_t Capacity> class Queue
     std::size_t size() const { return size_; }
 
     std::size_t capacity() const { return Capacity; }
+
+    void clear() { size_ = 0; }
 };
 
 int main() { return 0; }
