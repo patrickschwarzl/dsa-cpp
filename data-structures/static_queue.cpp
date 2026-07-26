@@ -37,6 +37,12 @@ class Queue
       return size_ == Capacity;
     }
 
+    T &front() const
+    {
+      return arr[0];
+    }
+
+
 };
 
 int main()
