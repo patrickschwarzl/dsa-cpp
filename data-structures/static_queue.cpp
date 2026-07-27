@@ -7,7 +7,11 @@
 
 #include <iostream>
 
-template <typename T, std::size_t Capacity> class Queue
+// max fallback capacity
+const constexpr std::size_t MAX_CAPACITY = 100;
+
+template <typename T, std::size_t Capacity = MAX_CAPACITY>
+class Queue
 {
   private:
     T arr_[Capacity];
