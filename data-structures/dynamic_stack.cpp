@@ -21,7 +21,8 @@
 const constexpr std::size_t CAPACITY = 10;
 const constexpr std::size_t CAPACITY_INTERVAL = 5;
 
-template <typename T> class Stack
+template <typename T>
+class Stack
 {
   private:
     std::unique_ptr<T[]> arr_;

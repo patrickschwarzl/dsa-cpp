@@ -18,7 +18,8 @@
 // max fallback capacity
 const constexpr std::size_t MAX_CAPACITY = 100;
 
-template <typename T, std::size_t Capacity = MAX_CAPACITY> class Stack
+template <typename T, std::size_t Capacity = MAX_CAPACITY>
+class Stack
 {
   private:
     // members
