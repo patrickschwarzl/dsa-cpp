@@ -20,6 +20,9 @@ template <typename T, std::size_t Capacity> class Queue
 
     // basic operations
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Enqueues an element at the back of the queue.
+    /// @param element
     void enqueue(const T &element)
     {
       if (capacityReached())
@@ -39,6 +42,8 @@ template <typename T, std::size_t Capacity> class Queue
       ++size_;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Dequeues the front element from the queue.
     void dequeue()
     {
       if (size_ == 0)
@@ -67,18 +72,40 @@ template <typename T, std::size_t Capacity> class Queue
         ++head_;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Returns true if capacity limit has been reached, false otherwise.
+    /// @return Boolean value
     bool capacityReached() const { return size_ == Capacity; }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Returns a non-const reference version of the front element.
+    /// @warning User is responsible for avoiding undefined behavior.
+    /// @return T&
     T &front() { return arr_[head_]; }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Returns a non-const reference version of the back element.
+    /// @warning User is responsible for avoiding undefined behavior.
+    /// @return T&
     T &back() { return arr_[tail_]; }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Returns true if queue is empty.
+    /// @return Boolean value
     bool empty() const { return size_ == 0; }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Returns the current size of the queue.
+    /// @return std::size_t
     std::size_t size() const { return size_; }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Return the queues capacity.
+    /// @return std::size_t
     std::size_t capacity() const { return Capacity; }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Resets the queue state to empty.
     void clear()
     {
       head_ = 0;
