@@ -19,7 +19,7 @@ template <typename T, std::size_t Capacity> class Queue
     Queue() : head_(0), tail_(0), size_(0) {}
 
     // basic operations
- 
+
     void enqueue(const T &element)
     {
       if (capacityReached())
@@ -46,6 +46,8 @@ template <typename T, std::size_t Capacity> class Queue
 
       if (size_ == 1)
       {
+        head_ = 0;
+        tail_ = 0;
         size_ = 0;
         return;
       }
@@ -80,6 +82,7 @@ template <typename T, std::size_t Capacity> class Queue
     void clear()
     {
       head_ = 0;
+      tail_ = 0;
       size_ = 0;
     }
 };
