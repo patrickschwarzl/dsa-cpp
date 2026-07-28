@@ -1,8 +1,18 @@
-// STATIC QUEUE
+// DYNAMIC QUEUE
 // a simple dynamic queue implementation that allocates elements dynamically on the heap. All elements are stored on
 // the heap. Features basic queue operations.
 //
 // TIME COMPLEXITY
+//  enqueue()          -> O(1) amortized (O(n) during reallocation of elements)
+//  dequeue()          -> O(1)
+//  shrinkToSize()     -> O(n)
+//  front()            -> O(1)
+//  back()             -> O(1)
+//  empty()            -> O(1)
+//  clear()            -> O(n) because of call to shrinkToSize()]
+//  capacity()         -> O(1)
+//  capacityReached()  -> O(1)
+//  size()             -> O(1)
 //
 
 #include <iostream>
@@ -37,7 +47,7 @@ class Queue
 
     //-----------------------------------------------------------------------------------------------------------------
     /// @brief Copy constructor.
-    Queue(const Queue &) = default;
+    Queue(const Queue &) = delete;
 
     //-----------------------------------------------------------------------------------------------------------------
     /// @brief Move constructor.
@@ -64,8 +74,11 @@ class Queue
         std::unique_ptr<T[]> new_arr = std::make_unique<T[]>(capacity_);
 
         // copy new elements from source array to new array
+        // we make sure to first copy all elements from the head until tail,
+        // then we copy the elements from tail up to one before size
         for (std::size_t i = 0; i < size_; i++)
         {
+          // TODO: REDO THIS
           new_arr[i] = std::move(arr_[i]);
         }
 
