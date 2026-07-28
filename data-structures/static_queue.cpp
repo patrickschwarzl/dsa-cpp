@@ -3,6 +3,15 @@
 // the stack with zero heap allocations.
 //
 // TIME COMPLEXITY
+//  enqueue()          -> O(1)
+//  dequeue()          -> O(1)
+//  front()            -> O(1)
+//  back()             -> O(1)
+//  empty()            -> O(1)
+//  clear()            -> O(1)
+//  capacity()         -> O(1)
+//  capacityReached()  -> O(1)
+//  size()             -> O(1)
 //
 
 #include <iostream>
