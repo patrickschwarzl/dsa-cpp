@@ -25,7 +25,11 @@ class Queue
   public:
     //-----------------------------------------------------------------------------------------------------------------
     /// @brief Default constructor. Initializes empty queue.
-    Queue() : arr_(std::make_unique<T[]>(CAPACITY)), capacity_(CAPACITY), head_(0), tail_(0), size_(0) {}
+    Queue()
+        : arr_(std::make_unique<T[]>(CAPACITY)), capacity_(CAPACITY), head_(0),
+          tail_(0), size_(0)
+    {
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     /// @brief Destructor.
@@ -50,7 +54,37 @@ class Queue
     /// ---------------------------------------------------------------------------------------------------------------
     // basic operations
 
+    void enqueue(const &T element) 
+    { 
+      if (capacityReached())
+      {
+        // allocate additional memory
+        capacity_ += CAPACITY_INTERVAL;
 
+        std::unique_ptr<T[]> new_arr = std::make_unique<T[]>(capacity_);
+
+        // copy new elements from source array to new array
+        for (std::size_t i = 0; i < size_; i++)
+        {
+          new_arr[i] = std::move(arr_[i]);
+        }
+
+        // replace old array
+        arr_ = std::move(new_arr);
+
+        std::cout << "INFO: Allocated more size!\n";
+      }
+
+      // use modulo approach
+      if (size_ != 0)
+      {
+        tail_ = (tail_ + 1) % capacity_;
+      }
+
+      arr_[tail_] = element;
+    }
+
+    bool capacityReached() const { return size_ == capacity_; }
 };
 
 int main()
