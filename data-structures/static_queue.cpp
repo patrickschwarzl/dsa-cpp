@@ -109,7 +109,7 @@ class Queue
     /// @brief Returns a read-only reference version of the front element.
     /// @warning User is responsible for avoiding undefined behavior.
     /// @return const T&
-    const &front() const { return arr_[head_]; }
+    const T &front() const { return arr_[head_]; }
 
     //-----------------------------------------------------------------------------------------------------------------
     /// @brief Returns a non-const reference version of the front element.
@@ -121,7 +121,7 @@ class Queue
     /// @brief Returns a read-only reference version of the back element.
     /// @warning User is responsible for avoiding undefined behavior.
     /// @return const T&
-    const &back() const { return arr_[tail_]; }
+    const T &back() const { return arr_[tail_]; }
 
     //-----------------------------------------------------------------------------------------------------------------
     /// @brief Returns a non-const reference version of the back element.
@@ -156,28 +156,26 @@ class Queue
 
 int main()
 {
+  Queue<int, 3> q;
 
-  Queue<int, 3> s;
+  q.enqueue(10);
+  q.enqueue(20);
+  q.enqueue(30);
 
-  s.enqueue(4);
+  std::cout << "Front: " << q.front() << " | Back: " << q.back()
+            << " | Size: " << q.size() << "\n";
 
-  std::cout << "front: " << s.front() << " back: " << s.back() << "\n";
+  q.enqueue(40); // trigger circular increment
 
-  std::cout << "size: " << s.size() << "\n";
+  q.dequeue();
+  q.enqueue(40);
 
-  s.enqueue(5);
+  std::cout << "Front: " << q.front() << " | Back: " << q.back()
+            << " | Size: " << q.size() << "\n";
 
-  s.enqueue(7);
-
-  s.enqueue(8);
-
-  std::cout << "front: " << s.front() << " back: " << s.back() << "\n";
-
-  s.dequeue();
-
-  std::cout << "size: " << s.size() << "\n";
-
-  std::cout << "front: " << s.front() << " back: " << s.back() << "\n";
+  q.clear();
+  std::cout << "Empty? " << (q.empty() ? "Yes" : "No")
+            << " | Size: " << q.size() << "\n";
 
   return 0;
 }
