@@ -106,10 +106,22 @@ class Queue
     bool capacityReached() const { return size_ == Capacity; }
 
     //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Returns a read-only reference version of the front element.
+    /// @warning User is responsible for avoiding undefined behavior.
+    /// @return const T&
+    const &front() const { return arr_[head_]; }
+
+    //-----------------------------------------------------------------------------------------------------------------
     /// @brief Returns a non-const reference version of the front element.
     /// @warning User is responsible for avoiding undefined behavior.
     /// @return T&
     T &front() { return arr_[head_]; }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Returns a read-only reference version of the back element.
+    /// @warning User is responsible for avoiding undefined behavior.
+    /// @return const T&
+    const &back() const { return arr_[tail_]; }
 
     //-----------------------------------------------------------------------------------------------------------------
     /// @brief Returns a non-const reference version of the back element.
