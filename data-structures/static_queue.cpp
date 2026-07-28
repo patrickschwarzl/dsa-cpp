@@ -70,6 +70,10 @@ class Queue
       }
 
       // circular increment
+      // this does work and replaces the need of modulo
+      // it's a design choice and I might add the modulo 
+      // version in the near future as well
+      // same applies to dequeue()
       if (tail_ + 1 == Capacity)
         tail_ = 0;
       else if (size_ != 0)
