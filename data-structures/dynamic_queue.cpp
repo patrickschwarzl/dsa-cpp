@@ -130,20 +130,30 @@ class Queue
 
     void shrinkToSize()
     {
-      std::size_t current_size = size();
+      std::size_t current_size = size_;
       std::size_t target_capacity = current_size > 0 ? current_size : 1;
 
       if (target_capacity != capacity_)
       {
         std::unique_ptr<T[]> new_arr = std::make_unique<T[]>(target_capacity);
-        capacity_ = target_capacity;
 
-        // move elements
-        for (std::size_t i = 0; i < current_size; i++)
+        // copy new elements from source array to new array
+        // here we make sure to copy the elements in the correct order
+        for (std::size_t i = 0; i < size_; i++)
         {
-          new_arr[i] = std::move(arr_[i]);
+          std::size_t index = (head_ + i) % capacity_;
+
+          new_arr[i] = std::move(arr_[index]);
         }
 
+        // updated capacity
+        capacity_ = target_capacity;
+
+        // update head_ and tail_
+        head_ = 0;
+        tail_ = target_capacity - 1;
+
+        // replace old array
         arr_ = std::move(new_arr);
       }
     }
@@ -223,7 +233,7 @@ int main()
   q.clear();
   std::cout << "Empty? " << (q.empty() ? "Yes" : "No")
             << " | Size: " << q.size() << "\n";
-  
+
   std::cout << "Current capacity: " << q.capacity() << "\n";
 
   return 0;
