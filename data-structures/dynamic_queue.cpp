@@ -1,6 +1,6 @@
 // DYNAMIC QUEUE
-// a simple dynamic queue implementation that allocates elements dynamically on the heap. All elements are stored on
-// the heap. Features basic queue operations.
+// A dynamic circular queue implementation storing elements on the heap via std::unique_ptr.
+// Automatically resizes upon expansion and additionally provides manual capacity reduction.
 //
 // TIME COMPLEXITY
 //  enqueue()          -> O(1) amortized (O(n) during reallocation of elements)
@@ -9,7 +9,7 @@
 //  front()            -> O(1)
 //  back()             -> O(1)
 //  empty()            -> O(1)
-//  clear()            -> O(n) because of call to shrinkToSize()]
+//  clear()            -> O(n) because of call to shrinkToSize()
 //  capacity()         -> O(1)
 //  capacityReached()  -> O(1)
 //  size()             -> O(1)
@@ -64,6 +64,9 @@ class Queue
     /// ---------------------------------------------------------------------------------------------------------------
     // basic operations
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Enqueues an element at the back of the queue. Reallocates memory if capacity is reached.
+    /// @param element Reference to the element to push into the queue.
     void enqueue(const T &element)
     {
       if (capacityReached())
@@ -91,8 +94,6 @@ class Queue
 
         // replace old array
         arr_ = std::move(new_arr);
-
-        std::cout << "INFO: Allocated more size!\n";
       }
 
       // use modulo approach
@@ -105,6 +106,8 @@ class Queue
       ++size_;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Dequeues the front element from the queue.
     void dequeue()
     {
       if (size_ == 0)
@@ -124,6 +127,8 @@ class Queue
       head_ = (head_ + 1) % capacity_;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Reduces storage capacity to fit current size.
     void shrinkToSize()
     {
       std::size_t current_size = size_;
@@ -178,6 +183,9 @@ class Queue
     /// @return T&
     T &back() { return arr_[tail_]; }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Returns true if capacity limit has been reached.
+    /// @return Boolean value
     bool capacityReached() const { return size_ == capacity_; }
 
     //-----------------------------------------------------------------------------------------------------------------
