@@ -18,7 +18,7 @@
 #include <iostream>
 #include <memory>
 
-const constexpr std::size_t CAPACITY = 3;
+const constexpr std::size_t CAPACITY = 10;
 const constexpr std::size_t CAPACITY_INTERVAL = 5;
 
 template <typename T>
@@ -226,7 +226,7 @@ int main()
   std::cout << "Front: " << q.front() << " | Back: " << q.back()
             << " | Size: " << q.size() << "\n";
 
-  q.enqueue(40); // trigger circular increment
+  q.enqueue(40);
 
   q.dequeue();
   q.enqueue(40);
