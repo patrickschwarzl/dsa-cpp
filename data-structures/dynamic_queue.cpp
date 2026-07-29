@@ -92,10 +92,6 @@ class Queue
         // replace old array
         arr_ = std::move(new_arr);
 
-        // DEBUGGING
-        for (std::size_t i = 0; i < size_; i++)
-          std::cout << arr_[i] << std::endl;
-
         std::cout << "INFO: Allocated more size!\n";
       }
 
