@@ -18,7 +18,7 @@
 #include <iostream>
 #include <memory>
 
-const constexpr std::size_t CAPACITY = 10;
+const constexpr std::size_t CAPACITY = 3;
 const constexpr std::size_t CAPACITY_INTERVAL = 5;
 
 template <typename T>
@@ -69,21 +69,32 @@ class Queue
       if (capacityReached())
       {
         // allocate additional memory
-        capacity_ += CAPACITY_INTERVAL;
+        std::size_t capacity = capacity_ + CAPACITY_INTERVAL;
 
-        std::unique_ptr<T[]> new_arr = std::make_unique<T[]>(capacity_);
+        std::unique_ptr<T[]> new_arr = std::make_unique<T[]>(capacity);
 
         // copy new elements from source array to new array
-        // we make sure to first copy all elements from the head until tail,
-        // then we copy the elements from tail up to one before size
+        // here we make sure to copy the elements in the correct order
         for (std::size_t i = 0; i < size_; i++)
         {
-          // TODO: REDO THIS
-          new_arr[i] = std::move(arr_[i]);
+          std::size_t index = (head_ + i) % capacity_;
+
+          new_arr[i] = std::move(arr_[index]);
         }
+
+        // updated capacity
+        capacity_ = capacity;
+
+        // update head_ and tail_
+        head_ = 0;
+        tail_ = size_ - 1;
 
         // replace old array
         arr_ = std::move(new_arr);
+
+        // DEBUGGING
+        for (std::size_t i = 0; i < size_; i++)
+          std::cout << arr_[i] << std::endl;
 
         std::cout << "INFO: Allocated more size!\n";
       }
