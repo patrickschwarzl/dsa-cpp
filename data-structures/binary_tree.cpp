@@ -58,15 +58,25 @@ class Tree
     // prints the tree, root -> left child -> right child
     void printTree() 
     {
-      if (root_ == std::nullopt)
-        return;
+      // print current value
+      std::cout << value_ << "\n";
 
-      // print root node's value
-      std::cout << 
+      // if exists, recursive call on left child
+      if (child_left_ != std::nullopt)
+        child_left_->printTree();
+
+      // else try the right side
+      if (child_right_ != std::nullopt)
+        child_right_->printTree();
     }
-}
+};
 
 int main()
 {
+  // initialize tree
+  Tree<int> t(2);
+
+  t.printTree();
+
   return 0;
 }
