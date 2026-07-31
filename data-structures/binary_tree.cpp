@@ -30,22 +30,27 @@ class Tree
 
     void addNode(const T &element)
     {
-      if (root_ == std::nullopt)
-      {
-        // found correct spot, so we allocate a new node on the heap
-        // and assign it with the element as its value
-        root_ = new Tree(element);
-        return;
-      }
-
-      if (element < value_)
+      if (element <= value_)
       {
         // left subtree
+        if (child_left_ == std::nullopt)
+        {
+          // correct node found, allocate new node and initialize its value
+          child_left_ = new Tree(element);
+          return;
+        }
+
         child_left_->addNode(element);
       }
       else if (element > value_)
       {
         // right subtree
+        if (child_right_ == std::nullopt)
+        {
+          child_right_ = new Tree(element);
+          return;
+        }
+
         child_right_->addNode(element);
       }
     };
