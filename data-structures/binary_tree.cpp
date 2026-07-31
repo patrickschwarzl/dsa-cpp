@@ -38,19 +38,30 @@ class Tree
         return;
       }
 
-      if (element < root_->value_)
+      if (element < value_)
       {
         // left subtree
         child_left_->addNode(element);
       }
-      else if (element > root_->value_)
+      else if (element > value_)
       {
         // right subtree
         child_right_->addNode(element);
       }
     };
 
-    int main()
+    // prints the tree, root -> left child -> right child
+    void printTree() 
+    {
+      if (root_ == std::nullopt)
+        return;
+
+      // print root node's value
+      std::cout << 
+    }
+}
+
+int main()
 {
   return 0;
 }
