@@ -13,14 +13,15 @@ template <typename T>
 class Tree
 {
   private:
+    const T value_;
     Tree *root_;
     Tree *child_left_;
     Tree *child_right_;
 
   public:
     // Constructor
-    Tree()
-        : root_(std::nullopt), child_left_(std::nullopt),
+    Tree(const T &element)
+        : value_(element), root_(std::nullopt), child_left_(std::nullopt),
           child_right_(std::nullopt)
     {
     }
@@ -31,9 +32,25 @@ class Tree
     {
       if (root_ == std::nullopt)
       {
-        // we are at the trees root node
+        // found correct spot, so we allocate a new node on the heap
+        // and assign it with the element as its value
+        root_ = new Tree(element);
+        return;
       }
-    }
-};
 
-int main() { return 0; }
+      if (element < root_->value_)
+      {
+        // left subtree
+        child_left_->addNode(element);
+      }
+      else if (element > root_->value_)
+      {
+        // right subtree
+        child_right_->addNode(element);
+      }
+    };
+
+    int main()
+{
+  return 0;
+}
