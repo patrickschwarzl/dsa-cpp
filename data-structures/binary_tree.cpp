@@ -21,8 +21,8 @@ class Tree
   public:
     // Constructor
     Tree(const T &element)
-        : value_(element), root_(std::nullopt), child_left_(std::nullopt),
-          child_right_(std::nullopt)
+        : value_(element), root_(nullptr), child_left_(nullptr),
+          child_right_(nullptr)
     {
     }
 
@@ -33,7 +33,7 @@ class Tree
       if (element <= value_)
       {
         // left subtree
-        if (child_left_ == std::nullopt)
+        if (!child_left_)
         {
           // correct node found, allocate new node and initialize its value
           child_left_ = new Tree(element);
@@ -45,7 +45,7 @@ class Tree
       else if (element > value_)
       {
         // right subtree
-        if (child_right_ == std::nullopt)
+        if (!child_right_)
         {
           child_right_ = new Tree(element);
           return;
@@ -62,11 +62,11 @@ class Tree
       std::cout << value_ << "\n";
 
       // if exists, recursive call on left child
-      if (child_left_ != std::nullopt)
+      if (child_left_)
         child_left_->printTree();
 
       // else try the right side
-      if (child_right_ != std::nullopt)
+      if (child_right_)
         child_right_->printTree();
     }
 };
