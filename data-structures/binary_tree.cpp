@@ -14,9 +14,9 @@ class Tree
 {
   private:
     const T value_;
-    Tree *root_;
-    Tree *child_left_;
-    Tree *child_right_;
+    std::unique_ptr<T*> root_;
+    std::unique_ptr<T*> child_left_;
+    std::unique_ptr<T*> child_right_;
 
   public:
     // Constructor
@@ -36,7 +36,8 @@ class Tree
         if (!child_left_)
         {
           // correct node found, allocate new node and initialize its value
-          child_left_ = new Tree(element);
+          child_left_ = std::make_unique<T*>(element);
+          child_left_->root_ = std::move(this);
           return;
         }
 
@@ -47,7 +48,8 @@ class Tree
         // right subtree
         if (!child_right_)
         {
-          child_right_ = new Tree(element);
+          child_right_ = std::make_unique<T*>(element);
+          child_right_->root_ = std::move(this);
           return;
         }
 
@@ -55,7 +57,7 @@ class Tree
       }
     };
 
-    // prints the tree, root -> left child -> right child
+    // prints the tree using preorder traversal
     void printTree() 
     {
       // print current value
@@ -63,11 +65,11 @@ class Tree
 
       // if exists, recursive call on left child
       if (child_left_)
-        child_left_->printTree();
+        child_left_.printTree();
 
       // else try the right side
       if (child_right_)
-        child_right_->printTree();
+        child_right_.printTree();
     }
 };
 
@@ -77,6 +79,8 @@ int main()
   Tree<int> t(2);
 
   t.printTree();
+
+  t.addNode(1);
 
   return 0;
 }
