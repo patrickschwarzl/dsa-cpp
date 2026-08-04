@@ -82,5 +82,7 @@ int main()
 
   t.addNode(1);
 
+  t.printTree();
+
   return 0;
 }
