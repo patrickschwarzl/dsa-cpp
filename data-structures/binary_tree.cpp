@@ -14,7 +14,7 @@ class Tree
 {
   private:
     const T value_;
-    std::unique_ptr<Tree<T>> root_;
+    Tree<T> *root_;
     std::unique_ptr<Tree<T>> child_left_;
     std::unique_ptr<Tree<T>> child_right_;
 
@@ -37,7 +37,7 @@ class Tree
         {
           // correct node found, allocate new node and initialize its value
           child_left_ = std::make_unique<Tree<T>>(element);
-          child_left_->root_ = std::move(this);
+          child_left_->root_ = this;
           return;
         }
 
@@ -49,7 +49,7 @@ class Tree
         if (!child_right_)
         {
           child_right_ = std::make_unique<Tree<T>>(element);
-          child_right_->root_ = std::move(this);
+          child_right_->root_ = this;
           return;
         }
 
