@@ -65,6 +65,48 @@ class Tree
       }
     };
 
+    bool deleteNode(const T &element)
+    {
+      Tree<T>* node = findNode(element);
+
+      if (!node)
+      {
+        std::cout << "Error: Failed to find Node.\n";
+        return false;
+      }
+
+      std::size_t count = node->count_;
+
+      if (count > 1)
+      {
+        // simply decrease frequency counter
+        --count;
+        return true;
+      }
+
+      if (node.get() == this)
+      {
+        // we do not support the deletion of the root node
+        std::cout << "Error: Deleting the trees root node is not allowed.\n";
+        return false;
+      }
+
+      // delete Node
+      // we will have to perform a rotation, therefore we temporarily store the nodes variables 
+      std::unique_ptr<Tree<T>> left_child = node->left_child_ ? std::move(node->left_child_) : nullptr;
+      std::unique_ptr<Tree<T>> right_child = node->right_child_ ? std::move(node->right_child_) : nullptr;
+      Tree<T>* root = node->root_;
+
+      // right rotation
+      root->left_child_ = std::move(left_child);
+      root->left_child_->
+
+
+
+      return true;
+
+    }
+
     Tree<T>* findNode(const T &element) 
     {
       // return current Node
