@@ -1,6 +1,7 @@
 // BINARY TREE
 // a class oriented binary tree implementation that features all basic operations. Nodes are allocated
-// entirely on the heap.
+// entirely on the heap. It also features a frequency count to handle duplicate values instead of allocating
+// multiple nodes with the same value.
 // valid datatypes include std::size_t, int, double, float.
 //
 // TIME COMPLEXITY
@@ -14,6 +15,7 @@ class Tree
 {
   private:
     const T value_;
+    std::size_t count_;
     Tree<T> *root_;
     std::unique_ptr<Tree<T>> child_left_;
     std::unique_ptr<Tree<T>> child_right_;
@@ -21,7 +23,7 @@ class Tree
   public:
     // Constructor
     Tree(const T &element)
-        : value_(element), root_(nullptr), child_left_(nullptr),
+        : value_(element), count_(1), root_(nullptr), child_left_(nullptr),
           child_right_(nullptr)
     {
     }
@@ -30,7 +32,13 @@ class Tree
 
     void addNode(const T &element)
     {
-      if (element <= value_)
+      if (element == value_)
+      {
+        // element with same value already exists, therefore we just increase it's count
+        count_++;
+        return;
+      }
+      else if (element < value_)
       {
         // left subtree
         if (!child_left_)
@@ -57,11 +65,16 @@ class Tree
       }
     };
 
+    std::unique_ptr<Tree<T>> findNode(const T &element) {}
+
     // prints the tree using preorder traversal
     void printTree() const
     {
-      // print current value
-      std::cout << value_ << "\n";
+      // print current value, possible also duplicates
+      for (std::size_t i = 0; i < count_; i++)
+      {
+        std::cout << value_ << "\n";
+      }
 
       // if exists, recursive call on left child
       if (child_left_)
@@ -80,6 +93,7 @@ int main()
 
   t.printTree();
 
+  t.addNode(1);
   t.addNode(1);
 
   t.printTree();
