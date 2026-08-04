@@ -51,7 +51,7 @@ class Tree
 
         child_left_->addNode(element);
       }
-      else if (element > value_)
+      else
       {
         // right subtree
         if (!child_right_)
@@ -65,7 +65,29 @@ class Tree
       }
     };
 
-    std::unique_ptr<Tree<T>> findNode(const T &element) {}
+    Tree<T>* findNode(const T &element) 
+    {
+      // return current Node
+      if (element == value_)
+      {
+        return this;
+      }
+      
+      // search left branch
+      if (child_left_ && element < value_)
+      {
+        return child_left_->findNode(element);
+      }
+
+      // search right branch
+      if (child_right_ && element > value_)
+      {
+        return child_right_->findNode(element);
+      }
+      
+      // failed to find Node, return nullptr as fallback value
+      return nullptr;
+    }
 
     // prints the tree using preorder traversal
     void printTree() const
@@ -84,6 +106,12 @@ class Tree
       if (child_right_)
         child_right_->printTree();
     }
+
+    // getters
+    T getValue() const
+    {
+      return value_;
+    }
 };
 
 int main()
@@ -91,12 +119,20 @@ int main()
   // initialize tree
   Tree<int> t(2);
 
-  t.printTree();
-
   t.addNode(1);
   t.addNode(1);
+  t.addNode(3);
 
   t.printTree();
+
+  Tree<int>* node = t.findNode(3);
+
+  std::cout << node->getValue() << "\n";
+
+  if (!node)
+  {
+    std::cout << "failed to find node\n";
+  }
 
   return 0;
 }
