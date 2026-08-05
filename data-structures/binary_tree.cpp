@@ -92,16 +92,63 @@ class Tree
       }
 
       // delete Node
-      // we will have to perform a rotation, therefore we temporarily store the nodes variables 
-      std::unique_ptr<Tree<T>> left_child = node->left_child_ ? std::move(node->left_child_) : nullptr;
-      std::unique_ptr<Tree<T>> right_child = node->right_child_ ? std::move(node->right_child_) : nullptr;
-      Tree<T>* root = node->root_;
+      // we temporarily store the nodes variables 
+      std::unique_ptr<Tree<T>> target_left_child = node->left_child_ ? std::move(node->left_child_) : nullptr;
+      std::unique_ptr<Tree<T>> target_right_child = node->right_child_ ? std::move(node->right_child_) : nullptr;
+      Tree<T>* target_root = node->root_;
 
-      // right rotation
-      root->left_child_ = std::move(left_child);
-      root->left_child_->
+      // determine if our target node is the left or right child of it's root
+      bool is_left = false;
 
+      // we split this process into 3 separate cases.
+      // case 1: target has no children
+      if (!target_left_child && !target_right_child)
+      {
+        // simply delete the Node
+        if (is_left)
+        {
+          target_root->child_left_.reset();
+        }
+        else
+        {
+          target_root->child_right_.reset();
+        }
 
+        return true;
+      }
+
+      // case 2: target has a left child + a right child
+      if (target_left_child && target_right_child)
+      {
+        // find the largest value on the left side of the target node
+        // TODO
+
+        return true;
+      }
+
+      // case 3: target has just one child
+      if (target_left_child)
+      {
+        if (is_left)
+        {
+          target_root->left_child_ = std::move(target_left_child);
+        }
+        else
+        {
+          target_root->right_child_ = std::move(target_left_child);
+        }
+      }
+      else
+      {
+        if (is_left)
+        {
+          target_root->left_child_ = std::move(target_right_child);
+        }
+        else
+        {
+          target_root->right_child_ = std::move(target_right_child);
+        }
+      }
 
       return true;
 
