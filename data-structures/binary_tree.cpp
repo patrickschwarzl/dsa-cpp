@@ -77,12 +77,10 @@ class Tree
         return false;
       }
 
-      std::size_t count = target_node->count_;
-
-      if (count > 1)
+      if (target_node->count_ > 1)
       {
         // simply decrease frequency counter
-        --count;
+        --target_node->count_;
         return true;
       }
 
@@ -146,6 +144,7 @@ class Tree
 
         predecessor->child_left_ = std::move(target_child_left);
         predecessor->child_right_ = std::move(target_child_right);
+        target_child_right->root_ = predecessor.get();
 
         if (is_left)
         {
@@ -241,7 +240,9 @@ int main()
   Tree<int> t(2);
 
   t.addNode(1);
-  t.addNode(1);
+  t.addNode(5);
+  t.addNode(8);
+  t.addNode(4);
   t.addNode(3);
 
   t.printTree();
@@ -255,7 +256,7 @@ int main()
     std::cout << "failed to find node\n";
   }
 
-  t.deleteNode(3);
+  t.deleteNode(5);
 
   t.printTree();
 
