@@ -97,12 +97,17 @@ class Tree
           target_node->child_left_ ? std::move(target_node->child_left_)
                                    : nullptr;
       std::unique_ptr<Tree<T>> target_child_right =
-          target_node->child_left_ ? std::move(target_node->child_left_)
+          target_node->child_right_ ? std::move(target_node->child_right_)
                                    : nullptr;
       Tree<T> *target_root = target_node->root_;
 
       // determine if our target node is the left or right child of it's root
       bool is_left = false;
+
+      if (target_root->child_left_.get() == target_node)
+      {
+        is_left = true;
+      }
 
       // we split this process into 3 separate cases.
       // case 1: target has no children
@@ -125,12 +130,14 @@ class Tree
       if (target_child_left && target_child_right)
       {
         // find predecessor of target node
-        std::unique_ptr<Tree<T>> predecessor = std::move(target_child_left);
+        Tree<T> *predecessor_ptr = target_child_left.get();
 
-        while (predecessor->child_right_)
+        while (predecessor_ptr->child_right_)
         {
-          predecessor = std::move(predecessor->child_right_);
+          predecessor_ptr = predecessor_ptr->child_right_.get();
         }
+
+        std::unique_ptr<Tree<T>> predecessor = std::move(predecessor_ptr->root_->child_right_);
 
         // we want to replace the target node with it's predecessor
         // if the predecessor has a left child, we want to have
