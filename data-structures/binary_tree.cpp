@@ -91,8 +91,44 @@ class Tree
           target_node->child_left_ ? target_node->child_left_.get() : nullptr;
       Tree<T> *target_child_right =
           target_node->child_right_ ? target_node->child_right_.get() : nullptr;
-      Tree<T> *target_root = target_node->root_;
 
+      // in case we try to delete the root node
+      if (!target_node->root_)
+      {
+        // replace the contents of the target node with one of its children
+        if (target_child_left)
+        {
+          target_node->child_left_ = std::move(target_child_left->child_left_);
+          target_node->child_right_ = std::move(target_child_left->child_right_);
+
+          target_node->value_ = target_child_left->value_;
+          target_node->count_ = target_child_left->count_;
+
+          target_child_left->root_ = this;
+
+          return true;
+        }
+        else if (target_child_right)
+        {
+          target_node->child_left_ = std::move(target_child_right->child_left_);
+          target_node->child_right_ = std::move(target_child_right->child_right_);
+
+          target_node->value_ = target_child_right->value_;
+          target_node->count_ = target_child_right->count_;
+
+          target_child_right->root_ = this;
+
+          return true;
+        }
+
+        // target is the root node and has no children
+        std::cout << "Error: Cannot delete final remaining node.\n";
+        return false;
+      }
+      
+      // safely get the targets root
+      Tree<T> *target_root = target_node->root_;
+      
       // determine if our target node is the left or right child of it's root
       bool is_left = false;
 
@@ -148,12 +184,12 @@ class Tree
         if (is_left)
         {
           target_root->child_left_ = std::move(target_node->child_left_);
-          target_node->child_left_->root_ = target_root->child_left_.get();
+          target_root->child_left_->root_ = target_root;
         }
         else
         {
           target_root->child_right_ = std::move(target_node->child_left_);
-          target_node->child_right_->root_ = target_root->child_left_.get();
+          target_root->child_right_->root_ = target_root;
         }
       }
       else
@@ -161,12 +197,12 @@ class Tree
         if (is_left)
         {
           target_root->child_left_ = std::move(target_node->child_right_);
-          target_node->child_left_->root_ = target_root->child_right_.get();
+          target_root->child_left_->root_ = target_root;
         }
         else
         {
           target_root->child_right_ = std::move(target_node->child_right_);
-          target_node->child_right_->root_ = target_root->child_right_.get();
+          target_root->child_right_->root_ = target_root;
         }
       }
 
