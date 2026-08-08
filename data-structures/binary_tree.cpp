@@ -15,7 +15,7 @@ template <typename T>
 class Tree
 {
   private:
-    const T value_;
+    T value_;
     std::size_t count_;
     Tree<T> *root_;
     std::unique_ptr<Tree<T>> child_left_;
@@ -67,6 +67,8 @@ class Tree
       }
     };
 
+    // previous attempt involved trying to swap nodes, yet due to many design limitations, I decided to switch
+    // just the nodes values instead.
     bool deleteNode(const T &element)
     {
       Tree<T> *target_node = findNode(element);
@@ -84,21 +86,11 @@ class Tree
         return true;
       }
 
-      if (target_node == this)
-      {
-        // we do not support the deletion of the root node
-        std::cout << "Error: Deleting the trees root node is not allowed.\n";
-        return false;
-      }
-
-      // delete Node
-      // we temporarily store the nodes variables
-      std::unique_ptr<Tree<T>> target_child_left =
-          target_node->child_left_ ? std::move(target_node->child_left_)
-                                   : nullptr;
-      std::unique_ptr<Tree<T>> target_child_right =
-          target_node->child_right_ ? std::move(target_node->child_right_)
-                                   : nullptr;
+      // we retrieve information about the target nodes current relations
+      Tree<T> *target_child_left =
+          target_node->child_left_ ? target_node->child_left_.get() : nullptr;
+      Tree<T> *target_child_right =
+          target_node->child_right_ ? target_node->child_right_.get() : nullptr;
       Tree<T> *target_root = target_node->root_;
 
       // determine if our target node is the left or right child of it's root
@@ -130,42 +122,24 @@ class Tree
       if (target_child_left && target_child_right)
       {
         // find predecessor of target node
-        Tree<T> *predecessor_ptr = target_child_left.get();
+        Tree<T> *predecessor_ptr = target_child_left;
 
         while (predecessor_ptr->child_right_)
         {
           predecessor_ptr = predecessor_ptr->child_right_.get();
         }
 
-        std::unique_ptr<Tree<T>> predecessor = std::move(predecessor_ptr->root_->child_right_);
+        // we want to replace the target node's with the value of it's predecessor, therefore we dont have
+        // to switch the nodes itself, but rather just swap their values
+        // declare predecessors value as the target nodes value
+        target_node->value_ = predecessor_ptr->value_;
+        target_node->count_ = predecessor_ptr->count_;
 
-        // we want to replace the target node with it's predecessor
-        // if the predecessor has a left child, we want to have
-        // this child as the predecessors root's right child
-        Tree *predecessor_root = predecessor->root_;
+        // set the predecessors count to 1, so the it gets wiped out by the recursive call to deleteNode()
+        predecessor_ptr->count_ = 1;
 
-        predecessor->root_ = target_root;
-        std::unique_ptr<Tree<T>> predecessor_child_left =
-            predecessor->child_right_ ? std::move(predecessor->child_right_)
-                                      : nullptr;
-
-        predecessor->child_left_ = std::move(target_child_left);
-        predecessor->child_right_ = std::move(target_child_right);
-        target_child_right->root_ = predecessor.get();
-
-        if (is_left)
-        {
-          target_root->child_left_ = std::move(predecessor);
-        }
-        else
-        {
-          target_root->child_right_ = std::move(predecessor);
-        }
-
-        predecessor_root->child_right_ = std::move(predecessor_child_left);
-        predecessor_child_left->root_ = predecessor_root;
-
-        return true;
+        // recursive call starting from the original targets left child
+        return target_node->child_left_->deleteNode(predecessor_ptr->value_);
       }
 
       // case 3: target has just one child
@@ -173,22 +147,26 @@ class Tree
       {
         if (is_left)
         {
-          target_root->child_left_ = std::move(target_child_left);
+          target_root->child_left_ = std::move(target_node->child_left_);
+          target_node->child_left_->root_ = target_root->child_left_.get();
         }
         else
         {
-          target_root->child_right_ = std::move(target_child_left);
+          target_root->child_right_ = std::move(target_node->child_left_);
+          target_node->child_right_->root_ = target_root->child_left_.get();
         }
       }
       else
       {
         if (is_left)
         {
-          target_root->child_left_ = std::move(target_child_right);
+          target_root->child_left_ = std::move(target_node->child_right_);
+          target_node->child_left_->root_ = target_root->child_right_.get();
         }
         else
         {
-          target_root->child_right_ = std::move(target_child_right);
+          target_root->child_right_ = std::move(target_node->child_right_);
+          target_node->child_right_->root_ = target_root->child_right_.get();
         }
       }
 
