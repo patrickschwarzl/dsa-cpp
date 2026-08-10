@@ -24,11 +24,16 @@ class Tree
     // helper func
     void addChild(std::unique_ptr<Tree<T>> child)
     {
-      child_left_ = std::move(child->child_left_);
-      child_right_ = std::move(child->child_right_);
-
       value_ = child->value_;
       count_ = child->count_;
+
+      // temporarily store the pointers to prevent losing them
+      std::unique_ptr<Tree<T>> temp_left = std::move(child->child_left_);
+      std::unique_ptr<Tree<T>> temp_right = std::move(child->child_right_);
+
+      // assign children
+      child_left_ = std::move(temp_left);
+      child_right_ = std::move(temp_right);
 
       if (child_left_)
       {
@@ -39,7 +44,6 @@ class Tree
       {
         child_right_->root_ = this;
       }
-
     }
 
   public:
@@ -113,10 +117,34 @@ class Tree
       Tree<T> *target_child_right =
           target_node->child_right_ ? target_node->child_right_.get() : nullptr;
 
-      // in case we try to delete the root node
+      // case 2: target has a left child + a right child, also works for the root
+      if (target_child_left && target_child_right)
+      {
+        // find predecessor of target node
+        Tree<T> *predecessor_ptr = target_child_left;
+
+        while (predecessor_ptr->child_right_)
+        {
+          predecessor_ptr = predecessor_ptr->child_right_.get();
+        }
+
+        // we want to replace the target node's with the value of it's predecessor, therefore we dont have
+        // to switch the nodes itself, but rather just swap their values
+        // declare predecessors value as the target nodes value
+        target_node->value_ = predecessor_ptr->value_;
+        target_node->count_ = predecessor_ptr->count_;
+
+        // set the predecessors count to 1, so the it gets wiped out by the recursive call to deleteNode()
+        predecessor_ptr->count_ = 1;
+
+        // recursive call starting from the original targets left child
+        return target_node->child_left_->deleteNode(predecessor_ptr->value_);
+      }
+
+      // in case we try to delete the root node and it has 0 or 1 children
       if (!target_node->root_)
       {
-        // replace the contents of the target node with one of its children
+        // replace the contents of the target node with one of its children, then delete the said child
         if (target_child_left)
         {
           target_node->addChild(std::move(target_node->child_left_));
@@ -159,30 +187,6 @@ class Tree
         }
 
         return true;
-      }
-
-      // case 2: target has a left child + a right child
-      if (target_child_left && target_child_right)
-      {
-        // find predecessor of target node
-        Tree<T> *predecessor_ptr = target_child_left;
-
-        while (predecessor_ptr->child_right_)
-        {
-          predecessor_ptr = predecessor_ptr->child_right_.get();
-        }
-
-        // we want to replace the target node's with the value of it's predecessor, therefore we dont have
-        // to switch the nodes itself, but rather just swap their values
-        // declare predecessors value as the target nodes value
-        target_node->value_ = predecessor_ptr->value_;
-        target_node->count_ = predecessor_ptr->count_;
-
-        // set the predecessors count to 1, so the it gets wiped out by the recursive call to deleteNode()
-        predecessor_ptr->count_ = 1;
-
-        // recursive call starting from the original targets left child
-        return target_node->child_left_->deleteNode(predecessor_ptr->value_);
       }
 
       // case 3: target has just one child
@@ -284,7 +288,8 @@ int main()
     std::cout << "failed to find node\n";
   }
 
-  t.deleteNode(5);
+  // delete root node
+  t.deleteNode(2);
 
   t.printTree();
 
