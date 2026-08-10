@@ -6,6 +6,11 @@
 // float.
 //
 // TIME COMPLEXITY
+//  addNode()     -> O(log n) average, O(n) worst-case (one-sided tree)
+//  deleteNode()  -> O(log n) average, O(n) worst-case
+//  findNode()    -> O(log n) average, O(n) worst-case
+//  printTree()   -> O(n)
+//  getValue()    -> O(1)
 //
 
 #include <iostream>
@@ -268,30 +273,98 @@ class Tree
 
 int main()
 {
-  // initialize tree
-  Tree<int> t(2);
+  // TESTING
+  // Should cover most BST operation cases.
 
-  t.addNode(1);
+  Tree<int> t(10);
   t.addNode(5);
-  t.addNode(8);
-  t.addNode(4);
-  t.addNode(3);
+  t.addNode(15);
+  t.addNode(2);
+  t.addNode(7);
+  t.addNode(12);
+  t.addNode(20);
+  t.addNode(14);
+  t.addNode(5); // increase frequency counter by one
 
-  t.printTree();
-
-  Tree<int> *node = t.findNode(3);
-
-  std::cout << "Found node with value: " << node->getValue() << "\n";
-
-  if (!node)
+  // deleting missing node
+  if (t.deleteNode(99))
   {
-    std::cout << "failed to find node\n";
+    std::cout << "FAIL\n";
+  }
+  else
+  {
+    std::cout << "PASS\n";
   }
 
-  // delete root node
-  t.deleteNode(2);
+  // frequency counter
+  t.deleteNode(5);
+  if (t.findNode(5) != nullptr)
+  {
+    std::cout << "PASS\n";
+  }
+  else
+  {
+    std::cout << "FAIL\n";
+  }
 
-  t.printTree();
+  // deleting leaf node
+  t.deleteNode(2);
+  if (t.findNode(2) == nullptr)
+  {
+    std::cout << "PASS\n";
+  }
+  else
+  {
+    std::cout << "FAIL\n";
+  }
+
+  // node with 1 child
+  t.deleteNode(12);
+  if (t.findNode(12) == nullptr && t.findNode(14) != nullptr)
+  {
+    std::cout << "PASS\n";
+  }
+  else
+  {
+    std::cout << "FAIL\n";
+  }
+
+  // node with 2 children
+  t.deleteNode(15);
+  if (t.findNode(15) == nullptr && t.findNode(14) != nullptr &&
+      t.findNode(20) != nullptr)
+  {
+    std::cout << "PASS\n";
+  }
+  else
+  {
+    std::cout << "FAIL\n";
+  }
+
+  // root node with 2 children
+  t.deleteNode(10);
+  if (t.findNode(10) == nullptr)
+  {
+    std::cout << "PASS\n";
+  }
+  else
+  {
+    std::cout << "FAIL\n";
+  }
+
+  // root node with 1 child
+  Tree<int> t_root_single(10);
+  t_root_single.addNode(20);
+  t_root_single.deleteNode(10);
+  if (t_root_single.findNode(10) == nullptr &&
+      t_root_single.findNode(20) != nullptr)
+  {
+    std::cout << "PASS\n";
+  }
+  else
+  {
+    std::cout << "FAIL\n";
+  }
 
   return 0;
 }
