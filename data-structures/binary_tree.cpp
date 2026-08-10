@@ -20,13 +20,16 @@ template <typename T>
 class Tree
 {
   private:
+    // members
     T value_;
     std::size_t count_;
     Tree<T> *root_;
     std::unique_ptr<Tree<T>> child_left_;
     std::unique_ptr<Tree<T>> child_right_;
 
-    // helper func
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Helper function that adopts a child node's data and children into the current node.
+    /// @param child Unique pointer to the child node being adopted.
     void addChild(std::unique_ptr<Tree<T>> child)
     {
       value_ = child->value_;
@@ -52,15 +55,41 @@ class Tree
     }
 
   public:
-  // Constructor
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Constructor. Initializes a node with a given value.
+    /// @param element Reference to the initial element stored in the node.
     Tree(const T &element)
         : value_(element), count_(1), root_(nullptr), child_left_(nullptr),
           child_right_(nullptr)
     {
     }
 
-  // basic operations
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Destructor.
+    ~Tree() = default;
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Copy constructor.
+    Tree(const Tree &) = delete;
+
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Move constructor.
+    Tree(Tree &&) = default;
+
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Copy assignment operator.
+    Tree &operator=(const Tree &) = delete;
+
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Move assignment operator.
+    Tree &operator=(Tree &&) = delete;
+
+    /// ---------------------------------------------------------------------------------------------------------------
+    // basic operations
+
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Inserts an element into the binary tree or increments the node count if value exists.
+    /// @param element Reference to the element to insert.
     void addNode(const T &element)
     {
       if (element == value_)
@@ -97,8 +126,10 @@ class Tree
       }
     };
 
-    // previous attempt involved trying to swap nodes, yet due to many design limitations, I decided to switch
-    // just the nodes values instead.
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Deletes an element from the binary tree or decrements frequency counter.
+    /// @param element Reference to the element to remove.
+    /// @return True if deletion was successful, false otherwise.
     bool deleteNode(const T &element)
     {
       Tree<T> *target_node = findNode(element);
@@ -225,6 +256,10 @@ class Tree
       return true;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Searches for a node containing the specified element value.
+    /// @param element Reference to the element to locate.
+    /// @return Pointer to the node if found, nullptr otherwise.
     Tree<T> *findNode(const T &element)
     {
       // return current Node
@@ -249,7 +284,8 @@ class Tree
       return nullptr;
     }
 
-    // prints the tree using preorder traversal
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Prints all elements in the tree using pre-order traversal.
     void printTree() const
     {
       // print current value, possible also duplicates
@@ -267,7 +303,12 @@ class Tree
         child_right_->printTree();
     }
 
+    /// ---------------------------------------------------------------------------------------------------------------
     // getters
+    
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Returns the value stored in the current node.
+    /// @return T
     T getValue() const { return value_; }
 };
 
