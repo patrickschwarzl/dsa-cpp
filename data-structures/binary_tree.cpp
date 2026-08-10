@@ -285,27 +285,27 @@ class Tree
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-    /// @brief Prints all elements in the tree using pre-order traversal.
+    /// @brief Prints all elements in the tree using in-order traversal.
     void printTree() const
     {
+      // if exists, recursive call on left child
+      if (child_left_)
+        child_left_->printTree();
+
       // print current value, possible also duplicates
       for (std::size_t i = 0; i < count_; i++)
       {
         std::cout << value_ << "\n";
       }
 
-      // if exists, recursive call on left child
-      if (child_left_)
-        child_left_->printTree();
-
-      // else try the right side
+      // recursive call on right child
       if (child_right_)
         child_right_->printTree();
     }
 
     /// ---------------------------------------------------------------------------------------------------------------
     // getters
-    
+
     //-----------------------------------------------------------------------------------------------------------------
     /// @brief Returns the value stored in the current node.
     /// @return T
@@ -326,6 +326,8 @@ int main()
   t.addNode(20);
   t.addNode(14);
   t.addNode(5); // increase frequency counter by one
+
+  t.printTree();
 
   // deleting missing node
   if (t.deleteNode(99))
