@@ -124,7 +124,7 @@ class Tree
 
         child_right_->addNode(element);
       }
-    };
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     /// @brief Deletes an element from the binary tree or decrements frequency counter.
