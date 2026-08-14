@@ -37,6 +37,24 @@ class Node
       target_node->child_->parent_ = this;
     }
 
+    Node *findNode(const T &value)
+    {
+      Node<T> *target_node = this;
+
+      if (value == value_)
+      {
+        return target_node;
+      }
+
+      // indicates last child
+      if (!target_node->child_)
+      {
+        return nullptr;
+      }
+
+      return target_node->child_->findNode(value);
+    }
+
     void printList()
     {
       Node<T> *target_node = this;
@@ -48,6 +66,8 @@ class Node
         target_node->child_->printList();
       }
     }
+
+    T getValue() const { return value_; }
 };
 
 int main()
@@ -58,6 +78,16 @@ int main()
   list.addNode(20);
 
   list.printList();
+
+  Node<int> *node = list.findNode(30);
+  if (node)
+  {
+    std::cout << "Found Node with value: " << node->getValue() << "\n";
+  }
+  else 
+  {
+    std::cout << "Failed to find Node\n";
+  }
 
   return 0;
 }
