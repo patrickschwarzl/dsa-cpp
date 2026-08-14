@@ -37,6 +37,49 @@ class Node
       target_node->child_->parent_ = this;
     }
 
+    // deletes first Node of specified value
+    bool deleteNode(const T &value)
+    {
+      Node<T> *target_node = findNode(value);
+
+      if (!target_node)
+      {
+        return false;
+      }
+      
+      Node<T> *parent = target_node->parent_;
+      std::unique_ptr<Node<T>> child = std::move(target_node->child_);
+
+      // target node is also root, special case
+      if (!parent)
+      {
+        if (!child)
+        {
+          std::cout << "Error: Cannot delete final remaining node.\n";
+          return false;
+        }
+
+        // swap value of root with value of it's child, initialize child
+        // as the new root
+        value_ = child->value_;
+
+        // retrieve child of child
+        child_ = std::move(child->child_);
+
+        if (child->child_)
+        {
+          child->child_->parent_ = this;
+        }
+
+        return true;
+      }
+
+      parent->child_ = std::move(child);
+      parent->child_->parent_ = parent;
+
+      return true;
+    }
+
     Node *findNode(const T &value)
     {
       Node<T> *target_node = this;
@@ -84,10 +127,14 @@ int main()
   {
     std::cout << "Found Node with value: " << node->getValue() << "\n";
   }
-  else 
+  else
   {
     std::cout << "Failed to find Node\n";
   }
+
+  list.deleteNode(1);
+
+  list.printList();
 
   return 0;
 }
