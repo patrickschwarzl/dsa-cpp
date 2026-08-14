@@ -46,7 +46,7 @@ class Node
       {
         return false;
       }
-      
+
       Node<T> *parent = target_node->parent_;
       std::unique_ptr<Node<T>> child = std::move(target_node->child_);
 
@@ -66,16 +66,20 @@ class Node
         // retrieve child of child
         child_ = std::move(child->child_);
 
-        if (child->child_)
+        if (child_)
         {
-          child->child_->parent_ = this;
+          child_->parent_ = this;
         }
 
         return true;
       }
 
       parent->child_ = std::move(child);
-      parent->child_->parent_ = parent;
+
+      if (parent->child_)
+      {
+        parent->child_->parent_ = parent;
+      }
 
       return true;
     }
@@ -115,24 +119,63 @@ class Node
 
 int main()
 {
-  Node<int> list(1);
+  // TESTING
 
-  list.addNode(10);
+  Node<int> list(10);
+  list.addNode(5);
+  list.addNode(15);
+  list.addNode(2);
+  list.addNode(7);
+  list.addNode(12);
   list.addNode(20);
+  list.addNode(14);
 
   list.printList();
 
-  Node<int> *node = list.findNode(30);
-  if (node)
+  // deleting missing node
+  if (list.deleteNode(99))
   {
-    std::cout << "Found Node with value: " << node->getValue() << "\n";
+    std::cout << "FAIL\n";
   }
   else
   {
-    std::cout << "Failed to find Node\n";
+    std::cout << "PASS\n";
   }
 
-  list.deleteNode(1);
+  // deleting leaf node
+  list.deleteNode(14);
+  if (list.findNode(14) == nullptr)
+  {
+    std::cout << "PASS\n";
+  }
+  else
+  {
+    std::cout << "FAIL\n";
+  }
+
+  // delete regular node
+  list.deleteNode(7);
+  if (list.findNode(7) == nullptr)
+  {
+    std::cout << "PASS\n";
+  }
+  else
+  {
+    std::cout << "FAIL\n";
+  }
+
+  list.printList();
+
+  // delete root node
+  list.deleteNode(10);
+  if (list.findNode(10) == nullptr)
+  {
+    std::cout << "PASS\n";
+  }
+  else
+  {
+    std::cout << "FAIL\n";
+  }
 
   list.printList();
 
