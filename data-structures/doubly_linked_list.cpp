@@ -15,15 +15,34 @@ class Node
 {
   // members
   private:
-
+    T value_;
+    Node<T> *parent_;
+    std::unique_ptr<Node<T>> child_;
 
   public:
+  // constructor
+    Node(const T &value) : value_(value), parent_(nullptr), child_(nullptr) {}
+
+  // basic operations
+  void addNode(const T &value)
+  {
+    Node *target_node = this;
+
+    while (target_node->child_)
+    {
+      target_node = target_node->child_.get();
+    }
+
+    target_node->child_ = std::make_unique(Node<T>(value));
+    target_node->child_->parent_ = this;
+  }
 
 
-};
+  };
 
 int main()
 {
+  Node<int> List(1);
 
 
 
