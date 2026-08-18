@@ -5,6 +5,11 @@
 // Valid datatypes include std::size_t, int, double, float.
 //
 // TIME COMPLEXITY
+//  addNode()    -> O(n)
+//  deleteNode() -> O(n)
+//  findNode()   -> O(n)
+//  printList()  -> O(n)
+//  getValue()   -> O(1)
 //
 
 #include <iostream>
