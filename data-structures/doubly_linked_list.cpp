@@ -25,10 +25,14 @@ class Node
     std::unique_ptr<Node<T>> child_;
 
   public:
-    // constructor
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Constructor. Initializes a node with a given value.
+    /// @param value Reference to the value stored in the node.
     Node(const T &value) : value_(value), parent_(nullptr), child_(nullptr) {}
 
-    // basic operations
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Appends a new node with the specified value to the end of the list.
+    /// @param value Reference to the value to append.
     void addNode(const T &value)
     {
       Node *target_node = this;
@@ -42,7 +46,10 @@ class Node
       target_node->child_->parent_ = this;
     }
 
-    // deletes first Node of specified value
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Deletes the first node matching the specified value.
+    /// @param value Reference to the value to remove.
+    /// @return True if deletion was successful, false if value was not found.
     bool deleteNode(const T &value)
     {
       Node<T> *target_node = findNode(value);
@@ -89,6 +96,10 @@ class Node
       return true;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Recursively searches for the first node containing the specified value.
+    /// @param value Reference to the value to locate.
+    /// @return Pointer to the matching Node if found, nullptr otherwise.
     Node *findNode(const T &value)
     {
       Node<T> *target_node = this;
@@ -107,6 +118,8 @@ class Node
       return target_node->child_->findNode(value);
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Recursively prints all values in the list starting from the current node.
     void printList()
     {
       Node<T> *target_node = this;
@@ -119,6 +132,9 @@ class Node
       }
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Returns the value stored in the current node.
+    /// @return T
     T getValue() const { return value_; }
 };
 
