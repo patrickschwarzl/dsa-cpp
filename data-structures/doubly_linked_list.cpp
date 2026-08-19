@@ -2,6 +2,8 @@
 // a class oriented doubly linked list implementation that features all basic
 // operations. Every Node is being allocated on the heap using unique pointers
 // for traversing and an additional pointer which points to the Nodes parent.
+// Note: findNode() and printList() do use recursion which we wouldn't want to
+// use in large production settings. Did it anyway.
 // Valid datatypes include std::size_t, int, double, float.
 //
 // TIME COMPLEXITY
@@ -29,6 +31,40 @@ class Node
     /// @brief Constructor. Initializes a node with a given value.
     /// @param value Reference to the value stored in the node.
     Node(const T &value) : value_(value), parent_(nullptr), child_(nullptr) {}
+
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Destructor. Instead of recursively, we release children iteratively to prevent potential stack overflow
+    //         complications.
+    ~Node()
+    {
+      while (child_)
+      {
+        // temporarily store grandchild
+        std::unique_ptr<Node<T>> child = std::move(child_->child_);
+
+        // overrides previous child and handles deletion in O(1)
+        child_ = std::move(child);
+      }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Copy constructor.
+    Node(const Node &) = delete;
+
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Move constructor.
+    Node(Node &&) = delete;
+
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Copy assignment operator.
+    Node &operator=(const Node &) = delete;
+
+    //-----------------------------------------------------------------------------------------------------------------
+    /// @brief Move assignment operator.
+    Node &operator=(Node &&) = delete;
+
+    /// ---------------------------------------------------------------------------------------------------------------
+    // basic operations
 
     //-----------------------------------------------------------------------------------------------------------------
     /// @brief Appends a new node with the specified value to the end of the list.
