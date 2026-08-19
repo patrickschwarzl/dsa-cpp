@@ -43,7 +43,7 @@ class Node
       }
 
       target_node->child_ = std::make_unique<Node<T>>(value);
-      target_node->child_->parent_ = this;
+      target_node->child_->parent_ = target_node;
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -173,6 +173,8 @@ int main()
   {
     std::cout << "FAIL\n";
   }
+
+  list.printList();
 
   // delete regular node
   list.deleteNode(7);
